@@ -57,7 +57,7 @@ The AWS Lambda service uses an IAM role to execute the function, below is the IA
 ```
 
 ### Configuring the AWS Lambda fucntion
-To create the new AWS Lambda function either paste the contents of the rds_mysql_to_s3.py file in the in-line code editor or create a zip file that contains only the rds_mysql_to_s3.py and upload the zip file.
+To create the new AWS Lambda function create a zip file that contains only the rds_mysql_to_s3.py and upload the zip file to a new AWS Lambda function.
 
 The Lambda Handler needs to be set to: rds_mysql_to_s3.lambda_handler
 The Runtime Environment is Python 2.7
