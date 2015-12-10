@@ -9,7 +9,8 @@ http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.Concepts.My
 
 The AWS Lambda service uses an IAM role to execute the function, below is the IAM policy needed by the function to run.  
 *Replace [BucketName] below with the name of the bucket in your account where you want the log files to be written to*
-```{
+```
+{
     "Version": "2012-10-17",
     "Statement": [
         {
