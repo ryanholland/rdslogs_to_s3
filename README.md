@@ -66,14 +66,16 @@ Modify the Timeout value (under Advanced) from the default of 3 seconds to at le
 
 ### Creating a Test Event
 The event input for the function is a JSON package that contains the information about the RDS instance and S3 bucket and has the following values:
-```{
+```
+{
   "BucketName": "[BucketName]",
   "RDSInstanceName": "[RDS DB Instance Name]",
   "S3BucketPrefix": "[Prefix to use within the specified bucket]/",
   "LogNamePrefix" : "general/mysql-general",
   "lastRecievedFile" : "lastWrittenMarker",
   "Region"  :"[RegionName]"
-}```
+}
+```
 
 ### Scheduling the AWS Lambda Function
 Since RDS only maintains log files for a maximum of 24 hours or until the log data exceeds 2% of the storage allocated to the DB Instance its adviseable to have the function run at least once per day.  By setting up an Event Source in Lambda you can have the function run on a scheduled basis.  As new log files are retrieved from the RDS service they will overwrite older log files of the same name in the S3 bucket/prefix so you should retrieve the log files from S3 prior to subsequent runs of the function.
