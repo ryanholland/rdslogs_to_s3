@@ -69,8 +69,8 @@ The event input for the function is a JSON package that contains the information
 ```
 {
   "BucketName": "[BucketName]",
-  "RDSInstanceName": "[RDS DB Instance Name]",
   "S3BucketPrefix": "[Prefix to use within the specified bucket]/",
+  "RDSInstanceName": "[RDS DB Instance Name]",
   "LogNamePrefix" : "general/mysql-general",
   "lastRecievedFile" : "lastWrittenMarker",
   "Region"  :"[RegionName]"
@@ -78,5 +78,13 @@ The event input for the function is a JSON package that contains the information
 ```
 
 ### Scheduling the AWS Lambda Function
-Since RDS only maintains log files for a maximum of 24 hours or until the log data exceeds 2% of the storage allocated to the DB Instance its adviseable to have the function run at least once per day.  By setting up an Event Source in Lambda you can have the function run on a scheduled basis.  As new log files are retrieved from the RDS service they will overwrite older log files of the same name in the S3 bucket/prefix so you should retrieve the log files from S3 prior to subsequent runs of the function.
+Since RDS only maintains log files for a maximum of 24 hours or until the log data exceeds 2% of the storage allocated to the DB Instance its adviseable to have the function run at least once per day.  By setting up an Event Source in Lambda you can have the function run on a scheduled basis.  As new log files are retrieved from the RDS service they will overwrite older log files of the same name in the S3 bucket/prefix so you should retrieve the log files from S3 prior to subsequent runs of the function.  If you are going to leverage the Scheduled Event to call the function the event there is no way to pass a payload to the function so set the values at the top of the file with those the same values as the in the Test Event:
+```
+S3BCUKET='[BucketName]'
+S3PREFIX='[Prefix to use within the specified bucket]/'
+RDSINSANCE='[RDS DB Instance Name]'
+LOGNAME='general/mysql-general'
+LASTRECIEVED='lastWrittenMarker'
+REGION='[RegionName]'
+```
 

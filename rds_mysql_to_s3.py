@@ -14,17 +14,31 @@
 
 import boto3, botocore
 
-
+## Set the values below if using Lambda Scheduled Event as an Event Source, otherwise leave empty and send data through the Lambda event payload
+S3BCUKET=''
+S3PREFIX=''
+RDSINSANCE=''
+LOGNAME=''
+LASTRECIEVED=''
+REGION=''
 
 def lambda_handler(event, context):
 	firstRun = False
 	logFileData = ""
-	S3BucketName = event['BucketName']
-	S3BucketPrefix = event['S3BucketPrefix']
-	RDSInstanceName = event['RDSInstanceName']
-	logNamePrefix = event['LogNamePrefix']
-	lastRecievedFile = S3BucketPrefix + event['lastRecievedFile']
-	region = event['Region']
+	if {'BucketName','S3BucketPrefix','RDSInstanceName','LogNamePrefix','lastRecievedFile','Region'}.issubset(event):
+		S3BucketName = event['BucketName']	
+		S3BucketPrefix = event['S3BucketPrefix']
+		RDSInstanceName = event['RDSInstanceName']
+		logNamePrefix = event['LogNamePrefix']
+		lastRecievedFile = S3BucketPrefix + event['lastRecievedFile']
+		region = event['Region']
+	else:
+		S3BucketName = S3BCUKET
+		S3BucketPrefix = S3PREFIX
+		RDSInstanceName = RDSINSANCE
+		logNamePrefix = LOGNAME
+		lastRecievedFile = S3BucketPrefix + LASTRECIEVED
+		region = REGION
 	RDSclient = boto3.client('rds',region_name=region)
 	S3client = boto3.client('s3',region_name=region)
 	dbLogs = RDSclient.describe_db_log_files( DBInstanceIdentifier=RDSInstanceName, FilenameContains=logNamePrefix)
